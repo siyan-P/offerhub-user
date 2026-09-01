@@ -1,0 +1,87 @@
+@use "../../abstract/variables" as var;
+
+// =============================================================================
+// Hero carousel
+//
+// Sized by aspect ratio rather than `100vh`: a full-viewport hero pushed every
+// other section below the fold, and on short laptop screens the homepage read
+// as a single image.
+// =============================================================================
+
+.carousel-container {
+  position: relative;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--space-4) var(--gutter) 0;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+
+  .carousel-slide {
+    position: relative;
+    outline-offset: -3px;
+  }
+
+  .carousel-image {
+    width: 100%;
+    aspect-ratio: 21 / 8;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-sunken);
+
+    @media (max-width: 768px) {
+      aspect-ratio: 16 / 10;
+      border-radius: 0;
+    }
+  }
+
+  .slick-slider,
+  .slick-list,
+  .slick-track,
+  .slick-slide > div {
+    height: 100%;
+  }
+
+  // --- dots -----------------------------------------------------------------
+  .custom-dots {
+    bottom: var(--space-4);
+
+    li {
+      width: auto;
+      height: auto;
+      margin: 0 3px;
+
+      &.slick-active .custom-dot {
+        width: 24px;
+        background: var(--neutral-0);
+      }
+    }
+  }
+
+  .custom-dot {
+    width: 10px;
+    height: 4px;
+    background: color-mix(in srgb, var(--neutral-0) 55%, transparent);
+    border-radius: var(--radius-full);
+    transition: width var(--duration-base) var(--ease-out),
+      background-color var(--duration-base) var(--ease-out);
+  }
+}
+
+.carousel-container--loading {
+  padding-top: var(--space-4);
+}
+
+.carousel-skeleton {
+  width: 100%;
+  aspect-ratio: 21 / 8;
+  border-radius: var(--radius-lg);
+
+  @media (max-width: 768px) {
+    aspect-ratio: 16 / 10;
+    border-radius: 0;
+  }
+}

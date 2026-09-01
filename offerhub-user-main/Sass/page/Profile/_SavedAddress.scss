@@ -1,0 +1,95 @@
+@use "../../abstract/variables" as var;
+
+.addresses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-4);
+}
+
+.address-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  &:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    min-height: 2rem;
+  }
+
+  .delete-btn {
+    color: var(--color-text-subtle);
+
+    &:hover {
+      color: var(--error-600);
+      background: var(--error-50);
+    }
+  }
+
+  h3 {
+    font-size: var(--text-md);
+    line-height: var(--leading-md);
+  }
+
+  address {
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+    font-style: normal;
+    color: var(--color-text-muted);
+  }
+}
+
+.add-address-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 10rem;
+  padding: var(--space-4);
+  background: var(--color-surface-sunken);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+
+  .plus-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-text-muted);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    background: var(--color-primary-soft);
+    color: var(--brand-700);
+
+    .plus-icon {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}

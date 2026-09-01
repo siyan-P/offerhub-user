@@ -1,0 +1,4 @@
+// Rail geometry, headings and scroll buttons for this section now come from the
+// shared `components/_rail.scss` layer, driven by the `ProductRail` component.
+// The per-section rules that used to live here (each with its own card count,
+// gap and heading scale) were the main source of homepage inconsistency.

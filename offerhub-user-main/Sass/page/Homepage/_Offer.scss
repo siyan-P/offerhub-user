@@ -1,0 +1,128 @@
+@use "../../abstract/variables" as var;
+
+.offer-container {
+  .offer-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-10);
+    padding: var(--space-8);
+    background: linear-gradient(
+      135deg,
+      var(--brand-50),
+      var(--color-surface) 65%
+    );
+    border: 1px solid var(--brand-100);
+    border-radius: var(--radius-xl);
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+      padding: var(--space-5);
+    }
+  }
+
+  .offer-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    // Re-runs whenever the key changes, i.e. on every slide.
+    animation: offer-in var(--duration-slow) var(--ease-out);
+
+    h2 {
+      font-size: var(--text-3xl);
+      line-height: var(--leading-3xl);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-tight);
+
+      @media (max-width: 768px) {
+        font-size: var(--text-2xl);
+        line-height: var(--leading-2xl);
+      }
+    }
+
+    h3 {
+      font-size: var(--text-lg);
+      line-height: var(--leading-lg);
+      font-weight: var(--weight-medium);
+      color: var(--color-primary);
+    }
+
+    p {
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-text-muted);
+    }
+  }
+
+  .offer-flag {
+    font-size: var(--text-xs);
+    padding: var(--space-1) var(--space-3);
+  }
+
+  .read-more {
+    margin-left: var(--space-1);
+    font-weight: var(--weight-semibold);
+    color: var(--color-primary);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .explore-btn {
+    margin-top: var(--space-2);
+  }
+
+  .offer-image {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border-radius: var(--radius-full);
+    background: var(--neutral-300);
+    border: none;
+    cursor: pointer;
+
+    // The visual dot is small; the hit area is not.
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -14px;
+    }
+
+    &.active {
+      width: 22px;
+      background: var(--color-primary);
+    }
+
+    &:hover:not(.active) {
+      background: var(--neutral-400);
+    }
+  }
+}
+
+@keyframes offer-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-2));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

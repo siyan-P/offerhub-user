@@ -1,0 +1,63 @@
+@use "../../abstract/variables" as var;
+
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: var(--space-12) var(--gutter);
+}
+
+.error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  max-width: 32rem;
+
+  .error-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: var(--space-2);
+    border-radius: var(--radius-full);
+    background: var(--error-50);
+    color: var(--error-600);
+
+    svg {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .error-message {
+    font-size: var(--text-base);
+    line-height: var(--leading-base);
+    color: var(--color-text-muted);
+  }
+
+  .error-detail {
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+    color: var(--color-text-subtle);
+    word-break: break-word;
+  }
+
+  .error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+}

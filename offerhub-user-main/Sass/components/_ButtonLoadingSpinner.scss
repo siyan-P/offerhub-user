@@ -1,0 +1,28 @@
+@use "../abstract/variables" as var;
+
+// Legacy in-button spinner. Kept so existing call sites keep working, but it
+// now inherits its colour from the button it sits in rather than hard-coding
+// white-on-brand — the shared primitive is `.ui-spinner` in `components/_ui`.
+.button-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-loader {
+  width: 1.125em;
+  height: 1.125em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

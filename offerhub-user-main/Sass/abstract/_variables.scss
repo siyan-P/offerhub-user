@@ -1,0 +1,36 @@
+// Sass-level mirrors of the CSS custom properties in `abstract/_tokens.scss`.
+//
+// Prefer the CSS variables (`var(--color-primary)`) in new styles — these exist
+// so Sass can still do compile-time work (colour maths, media queries) and so
+// pre-token stylesheets keep compiling.
+
+$color-white: #fff;
+$color-black: #14171c;
+
+// Brand
+$color-primary: #ff5c00;
+$color-primary-hover: #eb4a00;
+$color-primary-active: #c33900;
+$color-primary-soft: #fff5ed;
+
+// Neutrals
+$color-surface: #fff;
+$color-surface-sunken: #f8f9fa;
+$color-border: #e7e9ec;
+$color-text: #262a31;
+$color-text-gray: #565d68;
+$color-text-subtle: #767e8a;
+
+// Semantic
+$color-success: #12b76a;
+$color-warning: #f79009;
+$color-error: #f04438;
+$color-blue: #1570ef;
+$color-green: #039855;
+$selected: #fff5ed;
+
+// Layout
+$header-height: 4rem;
+$default-padding: 0 10%;
+$icon-size: 1.25rem;
+$radius-md: 10px;

@@ -1,0 +1,208 @@
+// =============================================================================
+// Shared rail + grid geometry.
+//
+// Loaded last so it normalises the per-section rules that each homepage rail
+// grew independently (6-up here, 4.5-up there, 5-up somewhere else). One
+// responsive step ladder now governs every horizontal rail and the catalog
+// grid, so cards are the same size wherever they appear.
+// =============================================================================
+
+$rail-gap: var(--space-5);
+
+.clearance-products,
+.bestseller-products,
+.trending-products,
+.products-slider {
+  display: flex;
+  gap: $rail-gap;
+  overflow-x: auto;
+  padding: var(--space-2) var(--space-1) var(--space-4);
+  scroll-snap-type: x proximity;
+  scroll-padding-left: var(--space-1);
+  -webkit-overflow-scrolling: touch;
+
+  > .product-card,
+  > * {
+    scroll-snap-align: start;
+  }
+
+  .product-card {
+    // 5-up on wide screens, easing to 2-up on phones: enough of the next card
+    // stays in view to signal that the rail scrolls.
+    flex: 0 0 calc((100% - 4 * var(--space-5)) / 5);
+    min-width: calc((100% - 4 * var(--space-5)) / 5);
+
+    @media (max-width: 1400px) {
+      flex-basis: calc((100% - 3 * var(--space-5)) / 4);
+      min-width: calc((100% - 3 * var(--space-5)) / 4);
+    }
+
+    @media (max-width: 1100px) {
+      flex-basis: calc((100% - 2 * var(--space-5)) / 3);
+      min-width: calc((100% - 2 * var(--space-5)) / 3);
+    }
+
+    @media (max-width: 820px) {
+      flex-basis: calc((100% - var(--space-5)) / 2.35);
+      min-width: calc((100% - var(--space-5)) / 2.35);
+    }
+
+    @media (max-width: 560px) {
+      flex-basis: 68%;
+      min-width: 68%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    gap: var(--space-3);
+  }
+}
+
+// Catalog grid — same card size ladder as the rails.
+.product-page .product-grid,
+.home-product-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-5);
+
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 820px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  > * {
+    min-width: 0;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Rail scroll buttons — one look, wherever they appear
+// -----------------------------------------------------------------------------
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: var(--color-surface-sunken);
+    border-color: var(--color-border-strong);
+  }
+
+  &:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &.scroll-left {
+    left: calc(var(--space-4) * -1);
+  }
+
+  &.scroll-right {
+    right: calc(var(--space-4) * -1);
+  }
+
+  // Rail buttons are a pointer affordance; touch users swipe.
+  @media (max-width: 820px) {
+    display: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Section header shared by every rail
+// -----------------------------------------------------------------------------
+.rail-section {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--space-8) var(--gutter);
+
+  @media (max-width: 768px) {
+    padding: var(--space-6) var(--gutter);
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  &__subtitle {
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  &__body {
+    position: relative;
+  }
+}
+
+.view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--tap-target);
+  padding-inline: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-primary);
+  cursor: pointer;
+  background: none;
+  border: none;
+
+  &:hover {
+    color: var(--color-primary-hover);
+    gap: var(--space-2);
+  }
+}
+
+.mobile-view-all {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .desktop-view-all {
+    display: none;
+  }
+
+  .mobile-view-all {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Homepage "shop everything" block
+// -----------------------------------------------------------------------------
+.shop-all {
+  &__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-8);
+  }
+}

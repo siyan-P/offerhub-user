@@ -1,0 +1,175 @@
+// =============================================================================
+// Design tokens — the single source of truth for the OfferHub storefront.
+// Everything else in Sass/ should reference these, never a raw hex or magic px.
+// =============================================================================
+
+:root {
+  // ---------------------------------------------------------------------------
+  // Colour — brand (warm "offer" orange), neutral, and semantic scales 50→900
+  // ---------------------------------------------------------------------------
+  --brand-50: #fff5ed;
+  --brand-100: #ffe8d6;
+  --brand-200: #ffcdab;
+  --brand-300: #ffa974;
+  --brand-400: #ff7d3b;
+  --brand-500: #ff5c00;
+  --brand-600: #eb4a00;
+  --brand-700: #c33900;
+  --brand-800: #9a2f06;
+  --brand-900: #7c2a0b;
+
+  --neutral-0: #ffffff;
+  --neutral-50: #f8f9fa;
+  --neutral-100: #f1f3f5;
+  --neutral-200: #e7e9ec;
+  --neutral-300: #d3d7dd;
+  --neutral-400: #a4abb5;
+  --neutral-500: #767e8a;
+  --neutral-600: #565d68;
+  --neutral-700: #3d434c;
+  --neutral-800: #262a31;
+  --neutral-900: #14171c;
+
+  --success-50: #ecfdf3;
+  --success-100: #d1fadf;
+  --success-500: #12b76a;
+  --success-600: #039855;
+  --success-700: #027a48;
+
+  --warning-50: #fffaeb;
+  --warning-100: #fef0c7;
+  --warning-500: #f79009;
+  --warning-600: #dc6803;
+  --warning-700: #b54708;
+
+  --error-50: #fef3f2;
+  --error-100: #fee4e2;
+  --error-500: #f04438;
+  --error-600: #d92d20;
+  --error-700: #b42318;
+
+  --info-50: #eff8ff;
+  --info-100: #d1e9ff;
+  --info-500: #2e90fa;
+  --info-600: #1570ef;
+  --info-700: #175cd3;
+
+  // ---------------------------------------------------------------------------
+  // Semantic aliases — components use these, not the raw scales
+  // ---------------------------------------------------------------------------
+  --color-primary: var(--brand-500);
+  --color-primary-hover: var(--brand-600);
+  --color-primary-active: var(--brand-700);
+  --color-primary-soft: var(--brand-50);
+  --color-primary-contrast: var(--neutral-0);
+
+  --color-surface: var(--neutral-0);
+  --color-surface-raised: var(--neutral-0);
+  --color-surface-sunken: var(--neutral-50);
+  --color-surface-muted: var(--neutral-100);
+
+  --color-text: var(--neutral-800);
+  --color-text-muted: var(--neutral-600);
+  --color-text-subtle: var(--neutral-500);
+  --color-text-inverse: var(--neutral-0);
+
+  --color-border: var(--neutral-200);
+  --color-border-strong: var(--neutral-300);
+
+  --color-price: var(--brand-600);
+  --color-star: #f5a524;
+
+  // ---------------------------------------------------------------------------
+  // Typography — every step ships its own line-height
+  // ---------------------------------------------------------------------------
+  --font-sans: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --text-2xs: 0.6875rem;   --leading-2xs: 1rem;
+  --text-xs: 0.75rem;      --leading-xs: 1.125rem;
+  --text-sm: 0.8125rem;    --leading-sm: 1.25rem;
+  --text-base: 0.9375rem;  --leading-base: 1.5rem;
+  --text-md: 1rem;         --leading-md: 1.5rem;
+  --text-lg: 1.125rem;     --leading-lg: 1.75rem;
+  --text-xl: 1.25rem;      --leading-xl: 1.75rem;
+  --text-2xl: 1.5rem;      --leading-2xl: 2rem;
+  --text-3xl: 1.875rem;    --leading-3xl: 2.375rem;
+  --text-4xl: 2.25rem;     --leading-4xl: 2.75rem;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  // ---------------------------------------------------------------------------
+  // Spacing — 4px base
+  // ---------------------------------------------------------------------------
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  // ---------------------------------------------------------------------------
+  // Radius
+  // ---------------------------------------------------------------------------
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  // ---------------------------------------------------------------------------
+  // Elevation
+  // ---------------------------------------------------------------------------
+  --shadow-xs: 0 1px 2px rgba(20, 23, 28, 0.05);
+  --shadow-sm: 0 1px 3px rgba(20, 23, 28, 0.08), 0 1px 2px rgba(20, 23, 28, 0.04);
+  --shadow-md: 0 4px 12px rgba(20, 23, 28, 0.08), 0 2px 4px rgba(20, 23, 28, 0.04);
+  --shadow-lg: 0 12px 28px rgba(20, 23, 28, 0.12), 0 4px 8px rgba(20, 23, 28, 0.05);
+  --shadow-xl: 0 24px 48px rgba(20, 23, 28, 0.16);
+  --ring-focus: 0 0 0 3px var(--brand-200);
+
+  // ---------------------------------------------------------------------------
+  // Motion — polish, not distraction
+  // ---------------------------------------------------------------------------
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 250ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  // ---------------------------------------------------------------------------
+  // Layout
+  // ---------------------------------------------------------------------------
+  --container-max: 1440px;
+  --gutter: var(--space-6);
+  --tap-target: 44px;
+
+  // ---------------------------------------------------------------------------
+  // Stacking order — one place, so overlays stop fighting each other
+  // ---------------------------------------------------------------------------
+  --z-base: 1;
+  --z-sticky: 100;
+  --z-header: 200;
+  --z-overlay: 800;
+  --z-drawer: 900;
+  --z-modal: 1000;
+  --z-toast: 1100;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --gutter: var(--space-4);
+  }
+}

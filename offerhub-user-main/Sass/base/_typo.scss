@@ -1,0 +1,67 @@
+@use "../abstract/variables" as variables;
+
+// Shared text utilities. Sizes come from the type scale in `abstract/_tokens`;
+// nothing here should introduce a new font-size value.
+
+.name-small {
+  font-size: var(--text-lg);
+  line-height: var(--leading-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.card-number {
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  color: var(--color-text-muted);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-subtle {
+  color: var(--color-text-subtle);
+}
+
+.price {
+  color: var(--color-price);
+  font-weight: var(--weight-semibold);
+}
+
+.price-struck {
+  color: var(--color-text-subtle);
+  text-decoration: line-through;
+  font-weight: var(--weight-regular);
+}
+
+.icons {
+  color: var(--color-text-muted);
+  font-size: var(--text-xl);
+}
+
+.whatsapp-icon {
+  font-size: var(--text-2xl);
+  color: var(--success-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+textarea::placeholder {
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  color: var(--color-text-subtle);
+}
+
+.chat-text {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+.small-heading {
+  font-size: var(--text-lg);
+  line-height: var(--leading-lg);
+  margin-bottom: var(--space-5);
+  color: var(--color-text);
+}

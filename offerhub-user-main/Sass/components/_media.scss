@@ -1,0 +1,54 @@
+// =============================================================================
+// Media wrapper — one aspect-ratio box for every product image in the app, so
+// mixed source dimensions can't produce a ragged grid.
+// =============================================================================
+
+.media {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;    // fallback — overridden by the inline style prop when a different ratio is passed
+  overflow: hidden;
+  background: var(--neutral-50);
+  border-radius: inherit;
+
+  &__placeholder {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  &__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;          // default: never crop, always show full product
+    object-position: center;
+    opacity: 0;
+    transition: opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+  }
+
+  &[data-status="loaded"] .media__img {
+    opacity: 1;
+  }
+
+  &__fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutral-400);
+    background: var(--color-surface-muted);
+
+    svg {
+      width: 28%;
+      height: 28%;
+      max-width: 3rem;
+      max-height: 3rem;
+    }
+  }
+}

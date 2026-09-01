@@ -1,0 +1,66 @@
+// Section-level loader. Fills its container; only the `--fullscreen` modifier
+// covers the viewport, and that is reserved for genuine page-blocking waits.
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 8rem;
+  padding: var(--space-8) 0;
+
+  &__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    animation: loading-bounce 0.6s ease-in-out alternate infinite;
+
+    &:nth-child(2) {
+      animation-delay: 0.15s;
+      opacity: 0.75;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.3s;
+      opacity: 0.5;
+    }
+  }
+
+  &--fullscreen {
+    position: fixed;
+    inset: 0;
+    min-height: 100vh;
+    background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+    backdrop-filter: blur(2px);
+    z-index: var(--z-modal);
+  }
+}
+
+@keyframes loading-bounce {
+  to {
+    transform: translateY(-0.4rem) scale(1.35);
+  }
+}
+
+.loading-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.saw-spinner {
+  position: relative;
+  width: 13rem;
+  height: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

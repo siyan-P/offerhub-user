@@ -1,0 +1,482 @@
+// =============================================================================
+// Base UI primitives. Every screen composes these instead of restyling a raw
+// <button>/<input> from scratch.
+// =============================================================================
+
+// Targeted interaction transitions. Replaces the old `* { transition: all }`,
+// which animated every property on every node in the tree.
+a,
+button,
+.ui-btn,
+.ui-input,
+.ui-chip,
+.product-card,
+.product-card img,
+[role="button"] {
+  transition: color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+}
+
+// -----------------------------------------------------------------------------
+// Button
+// -----------------------------------------------------------------------------
+.ui-btn {
+  --btn-height: 2.75rem;
+  --btn-padding-x: var(--space-5);
+  --btn-font: var(--text-base);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--btn-height);
+  padding: 0 var(--btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--btn-font);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+
+  svg {
+    flex-shrink: 0;
+    width: 1.125em;
+    height: 1.125em;
+  }
+
+  &:active:not(:disabled):not(.is-loading) {
+    transform: translateY(1px);
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  &.is-loading {
+    cursor: progress;
+    pointer-events: none;
+  }
+
+  // --- sizes -----------------------------------------------------------------
+  &--sm {
+    --btn-height: 2.25rem;
+    --btn-padding-x: var(--space-3);
+    --btn-font: var(--text-sm);
+    border-radius: var(--radius-sm);
+  }
+
+  &--lg {
+    --btn-height: 3.25rem;
+    --btn-padding-x: var(--space-6);
+    --btn-font: var(--text-md);
+  }
+
+  &--block {
+    width: 100%;
+  }
+
+  // --- variants --------------------------------------------------------------
+  &--primary {
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+    box-shadow: var(--shadow-xs);
+
+    &:hover:not(:disabled):not(.is-loading) {
+      background: var(--color-primary-hover);
+      box-shadow: var(--shadow-sm);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--color-primary-active);
+    }
+  }
+
+  &--secondary {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-color: var(--color-border-strong);
+
+    &:hover:not(:disabled):not(.is-loading) {
+      background: var(--color-surface-sunken);
+      border-color: var(--neutral-400);
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: var(--color-text-muted);
+
+    &:hover:not(:disabled):not(.is-loading) {
+      background: var(--color-surface-muted);
+      color: var(--color-text);
+    }
+  }
+
+  &--destructive {
+    background: var(--error-600);
+    color: var(--neutral-0);
+
+    &:hover:not(:disabled):not(.is-loading) {
+      background: var(--error-700);
+    }
+  }
+
+  &--success {
+    background: var(--success-600);
+    color: var(--neutral-0);
+
+    &:hover:not(:disabled):not(.is-loading) {
+      background: var(--success-700);
+    }
+  }
+
+
+  // Label/loader stack: the label keeps its width while the spinner sits on top,
+  // so a button never resizes mid-action.
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+
+    &.is-hidden {
+      visibility: hidden;
+    }
+  }
+
+  &__loader {
+    position: absolute;
+    inset: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+  }
+
+  // Icon-only: guarantees a 44px touch target regardless of glyph size.
+  &--icon {
+    --btn-padding-x: 0;
+    width: var(--btn-height);
+    min-width: var(--btn-height);
+    padding: 0;
+    border-radius: var(--radius-full);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Inline spinner, sized from the current font
+// -----------------------------------------------------------------------------
+.ui-spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: ui-spin 0.6s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes ui-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Field / Input
+// -----------------------------------------------------------------------------
+.ui-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+
+  &__label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-text);
+
+    .required {
+      color: var(--error-600);
+      margin-left: 2px;
+    }
+  }
+
+  &__control {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__affix {
+    position: absolute;
+    right: var(--space-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--tap-target);
+    min-height: var(--tap-target);
+    color: var(--color-text-subtle);
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-text);
+    }
+  }
+
+  &__hint {
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+    color: var(--color-text-subtle);
+  }
+
+  &__error {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+    color: var(--error-600);
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+}
+
+.ui-input {
+  width: 100%;
+  min-height: var(--tap-target);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  color: var(--color-text);
+
+  &::placeholder {
+    color: var(--color-text-subtle);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--neutral-400);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--ring-focus);
+  }
+
+  &:disabled {
+    background: var(--color-surface-sunken);
+    color: var(--color-text-subtle);
+    cursor: not-allowed;
+  }
+
+  &--has-affix {
+    padding-right: calc(var(--tap-target) + var(--space-2));
+  }
+
+  &[aria-invalid="true"] {
+    border-color: var(--error-500);
+
+    &:focus {
+      box-shadow: 0 0 0 3px var(--error-100);
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Badge / Chip
+// -----------------------------------------------------------------------------
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+
+  &--brand {
+    background: var(--brand-500);
+    color: var(--neutral-0);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  &--success {
+    background: var(--success-50);
+    color: var(--success-700);
+  }
+  &--warning {
+    background: var(--warning-50);
+    color: var(--warning-700);
+  }
+  &--error {
+    background: var(--error-50);
+    color: var(--error-700);
+  }
+  &--info {
+    background: var(--info-50);
+    color: var(--info-700);
+  }
+}
+
+.ui-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2rem;
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-3);
+  background: var(--color-primary-soft);
+  border: 1px solid var(--brand-200);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  color: var(--brand-800);
+
+  &__label {
+    color: var(--brand-700);
+    font-weight: var(--weight-medium);
+  }
+
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--brand-700);
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+
+    &:hover {
+      background: var(--brand-200);
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Surface / Card
+// -----------------------------------------------------------------------------
+.ui-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+}
+
+// -----------------------------------------------------------------------------
+// Section heading shared by the homepage rails
+// -----------------------------------------------------------------------------
+.section-heading {
+  font-size: var(--text-2xl);
+  line-height: var(--leading-2xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+
+  span {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 768px) {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Breadcrumb — shared by catalog, product detail, cart and profile
+// -----------------------------------------------------------------------------
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+
+  a,
+  span {
+    cursor: default;
+  }
+
+  a {
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  [aria-current="page"] {
+    color: var(--color-text);
+    font-weight: var(--weight-medium);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Avatar — photo, initials, or a generic mark. Never a broken image.
+// -----------------------------------------------------------------------------
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  // Initials scale with the circle, so one component covers every size.
+  font-size: 0.4em;
+  line-height: 1;
+  user-select: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__initials {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.02em;
+  }
+
+  &__icon {
+    width: 45%;
+    height: 45%;
+  }
+
+  // Larger circles get proportionally larger initials.
+  &--lg {
+    .avatar__initials {
+      font-size: 1.1rem;
+    }
+  }
+}

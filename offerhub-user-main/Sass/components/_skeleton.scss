@@ -1,0 +1,236 @@
+// =============================================================================
+// Skeletons — shaped like the content they stand in for, so first paint doesn't
+// shift layout when real data lands.
+// =============================================================================
+
+.skeleton {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--neutral-100) 25%,
+    var(--neutral-200) 37%,
+    var(--neutral-100) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+  // Skeletons carry no meaning for assistive tech.
+  pointer-events: none;
+
+  &--text {
+    height: 0.75em;
+    border-radius: var(--radius-full);
+  }
+
+  &--circle {
+    border-radius: var(--radius-full);
+  }
+
+  &--block {
+    border-radius: var(--radius-md);
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Product card skeleton — mirrors `.product-card` box model exactly
+// -----------------------------------------------------------------------------
+.product-card-skeleton {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+
+  &__media {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Grid / rail wrappers
+// -----------------------------------------------------------------------------
+.product-grid-skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-5);
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+}
+
+.product-rail-skeleton {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(200px, 1fr);
+  gap: var(--space-5);
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    grid-auto-columns: minmax(150px, 46%);
+    gap: var(--space-3);
+  }
+}
+
+.category-rail-skeleton {
+  display: flex;
+  gap: var(--space-6);
+  overflow: hidden;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    flex-shrink: 0;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Product detail skeleton
+// -----------------------------------------------------------------------------
+.pdp-skeleton {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-10);
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--space-8) var(--gutter);
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  &__gallery {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  &__main {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-lg);
+  }
+
+  &__thumbs {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  &__thumb {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: var(--radius-md);
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Cart skeleton
+// -----------------------------------------------------------------------------
+.cart-skeleton {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 22rem;
+  gap: var(--space-8);
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--space-8) var(--gutter);
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr) 5rem;
+    gap: var(--space-4);
+    align-items: center;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  &__thumb {
+    width: 6rem;
+    height: 6rem;
+    border-radius: var(--radius-md);
+  }
+
+  &__lines {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    height: fit-content;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Stale-while-revalidate: content stays readable, just visibly settling.
+// -----------------------------------------------------------------------------
+.is-revalidating {
+  opacity: 0.6;
+  transition: opacity var(--duration-slow) var(--ease-out);
+  pointer-events: none;
+}
+
+.inline-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.rail-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-6) 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}

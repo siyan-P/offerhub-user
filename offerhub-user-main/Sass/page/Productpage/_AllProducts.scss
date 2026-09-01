@@ -1,0 +1,507 @@
+@use "../../abstract/variables" as var;
+
+// =============================================================================
+// Catalog
+//
+// Persistent filter rail on desktop, off-canvas drawer under 1100px. Applied
+// filters surface as removable chips above the grid so the current query is
+// always legible without opening the panel.
+// =============================================================================
+
+.product-page {
+  background: var(--color-surface);
+}
+
+.product-section {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--space-6) var(--gutter) var(--space-16);
+}
+
+// -----------------------------------------------------------------------------
+// Header: title, count, sort, filter trigger
+// -----------------------------------------------------------------------------
+.product-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+
+  .header-left h1 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-tight);
+
+    span {
+      padding: 2px var(--space-2);
+      background: var(--color-surface-muted);
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--color-text-muted);
+      letter-spacing: 0;
+    }
+
+    @media (max-width: 768px) {
+      font-size: var(--text-2xl);
+      line-height: var(--leading-2xl);
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+}
+
+.sort-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  .sort-text {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  select {
+    min-height: var(--tap-target);
+    padding: 0 var(--space-8) 0 var(--space-3);
+    background: var(--color-surface)
+      url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23565d68' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 6 8 10 12 6'/%3E%3C/svg%3E")
+      no-repeat right var(--space-3) center;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    appearance: none;
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--neutral-400);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: var(--ring-focus);
+    }
+  }
+}
+
+.filter-btn {
+  &.active {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  &__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding-inline: 4px;
+    background: var(--color-primary);
+    color: var(--neutral-0);
+    border-radius: var(--radius-full);
+    font-size: var(--text-2xs);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Applied-filter chips
+// -----------------------------------------------------------------------------
+.active-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+
+  .clear-all {
+    min-height: 2rem;
+    padding-inline: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: var(--error-600);
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Layout: rail + grid
+// -----------------------------------------------------------------------------
+.product-content {
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-8);
+  padding-top: var(--space-4);
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.products-container {
+  min-width: 0;
+}
+
+.catalog-end {
+  padding: var(--space-8) 0 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+}
+
+// -----------------------------------------------------------------------------
+// Filter panel — sticky rail on desktop, drawer on smaller screens
+// -----------------------------------------------------------------------------
+.filter-sidebar {
+  position: sticky;
+  top: var(--space-6);
+  max-height: calc(100vh - var(--space-12));
+  overflow-y: auto;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  .filter-header {
+    display: none;
+  }
+
+  @media (max-width: 1100px) {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: var(--z-drawer);
+    width: min(22rem, 88vw);
+    max-height: none;
+    border-radius: 0;
+    border: none;
+    box-shadow: var(--shadow-xl);
+    transform: translateX(-100%);
+    transition: transform var(--duration-slow) var(--ease-out);
+    padding: 0;
+
+    &.open {
+      transform: translateX(0);
+    }
+
+    .filter-header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4);
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+
+      h2 {
+        font-size: var(--text-lg);
+        line-height: var(--leading-lg);
+      }
+
+      .close-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--tap-target);
+        height: var(--tap-target);
+        margin-right: calc(var(--space-2) * -1);
+        border-radius: var(--radius-full);
+        color: var(--color-text-muted);
+
+        &:hover {
+          background: var(--color-surface-muted);
+          color: var(--color-text);
+        }
+      }
+    }
+
+    .filter-sections {
+      padding: var(--space-4);
+    }
+  }
+}
+
+.filter-overlay {
+  display: none;
+
+  @media (max-width: 1100px) {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-overlay);
+    display: block;
+    background: color-mix(in srgb, var(--neutral-900) 45%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-slow) var(--ease-out);
+
+    &.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+}
+
+.filter-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.filter-section {
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: var(--tap-target);
+    text-align: left;
+    color: var(--color-text);
+
+    h3 {
+      font-size: var(--text-sm);
+      line-height: var(--leading-sm);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    svg {
+      color: var(--color-text-subtle);
+      flex-shrink: 0;
+    }
+
+    &:hover h3 {
+      color: var(--color-text);
+    }
+  }
+}
+
+.filter-skeletons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+}
+
+// Category / highlight lists
+.categories-list,
+.highlights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: var(--space-2);
+  list-style: none;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: 2.25rem;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-base);
+    text-align: left;
+    color: var(--color-text-muted);
+
+    &:hover {
+      background: var(--color-surface-sunken);
+      color: var(--color-text);
+    }
+
+    &[aria-pressed="true"] {
+      background: var(--color-primary-soft);
+      color: var(--brand-700);
+      font-weight: var(--weight-medium);
+    }
+  }
+
+  .count {
+    font-size: var(--text-2xs);
+    color: var(--color-text-subtle);
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .subcategory-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-subtle);
+
+    &:hover {
+      background: var(--color-surface-sunken);
+    }
+  }
+
+  .subcategory-arrow {
+    transition: transform var(--duration-base) var(--ease-out);
+
+    &.rotated {
+      transform: rotate(180deg);
+    }
+  }
+
+  .subcategories-list {
+    padding-left: var(--space-4);
+    border-left: 1px solid var(--color-border);
+    margin-left: var(--space-2);
+    list-style: none;
+
+    button {
+      font-size: var(--text-sm);
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Price range
+// -----------------------------------------------------------------------------
+.price-range {
+  padding: var(--space-2) var(--space-2) var(--space-4);
+}
+
+.range-slider {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  margin: var(--space-6) 0 var(--space-4);
+  background: var(--neutral-200);
+  border-radius: var(--radius-full);
+
+  .slider-track {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-full);
+    z-index: 1;
+  }
+
+  .slider-thumb {
+    position: absolute;
+    width: 100%;
+    height: 0;
+    appearance: none;
+    background: none;
+    pointer-events: none;
+    z-index: 2;
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      pointer-events: auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--color-surface);
+      border: 2px solid var(--color-primary);
+      cursor: grab;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--duration-fast) var(--ease-out);
+
+      &:hover {
+        transform: scale(1.15);
+      }
+    }
+
+    &::-moz-range-thumb {
+      pointer-events: auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--color-surface);
+      border: 2px solid var(--color-primary);
+      cursor: grab;
+      box-shadow: var(--shadow-sm);
+    }
+
+    &:focus-visible::-webkit-slider-thumb {
+      box-shadow: var(--ring-focus);
+    }
+
+    &.left {
+      z-index: 3;
+    }
+  }
+}
+
+.price-inputs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  &__dash {
+    color: var(--color-text-subtle);
+  }
+
+  .price-input {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+
+    span {
+      position: absolute;
+      left: var(--space-3);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-subtle);
+      font-size: var(--text-sm);
+      pointer-events: none;
+    }
+
+    input {
+      width: 100%;
+      min-height: 2.5rem;
+      padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      font-variant-numeric: tabular-nums;
+
+      &:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: var(--ring-focus);
+      }
+    }
+  }
+}
